@@ -1,5 +1,5 @@
 module.exports = {
-  title: '企微侧栏权威开发指南',
+  title: '',
   description: '企业微信侧边栏开发方案、教程、FAQ',
   themeConfig: {
     logo: '/images/logo.png',
@@ -7,10 +7,12 @@ module.exports = {
       {
         title: '介绍',
         collapsable: false,
-        children: []
+        children: [
+          ['/', '封面']
+        ]
       },
       {
-        title: '指南',
+        title: 'Hello World',
         collapsable: false,
         children: [
           '/guide/prepare',
