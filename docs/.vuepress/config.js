@@ -16,7 +16,8 @@ module.exports = {
         collapsable: false,
         children: [
           '/guide/prepare',
-          '/guide/config_sidebar_h5'
+          '/guide/config_sidebar_h5',
+          '/guide/run_frontend_template'
         ]
       },
       {
