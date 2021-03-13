@@ -15,7 +15,7 @@ git clone https://github.com/wecom-sidebar/wecom-sidebar-sls.git
 
 其中需要用到 `corpId`，`agentId`，`corpSecret`，需要先行创建 `.env`（目前已隐藏），示例
 
-```.dotenv
+```shell
 # .env
 
 # 在 https://work.weixin.qq.com/wework_admin/frame#profile 这里可以找到
