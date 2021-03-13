@@ -1,5 +1,6 @@
 module.exports = {
-  title: '/docs/',
+  base: '/docs/',
+  title: '',
   description: '企业微信侧边栏开发方案、教程、FAQ',
   themeConfig: {
     logo: '/images/logo.png',
