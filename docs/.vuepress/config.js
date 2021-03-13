@@ -27,7 +27,9 @@ module.exports = {
       {
         title: 'FAQ',
         collapsable: false,
-        children: []
+        children: [
+          '/faq/agentConfig_is_not_a_function'
+        ]
       }
     ]
   }
