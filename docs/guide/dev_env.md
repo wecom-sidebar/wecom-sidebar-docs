@@ -6,7 +6,7 @@
 
 ## 怎么把侧边栏映射到本地
 
-《配置侧边栏H5》这一步给侧边栏配置了 [https://www.baidu.com](https://www.baidu.com)。
+《配置侧边栏》这一步给侧边栏配置了 [https://www.baidu.com](https://www.baidu.com)。
 假设这个就是我们要用的域名，怎么把侧边栏映射到本地呢？
 
 翻了很多网上的资料，基本都是改 hosts 文件来让 https://www.baidu.com 打到 localhost:3000 的。
@@ -40,7 +40,7 @@ w2 start
 
 下面要把本机的请求都用 Whistle 来做代理：
 
-System Preferences > Network > Advanced > Proxies > HTTP or HTTPS
+**System Preferences > Network > Advanced > Proxies > HTTP or HTTPS**
 
 ![](./images/mac-proxy-1.jpg)
 ![](./images/mac-proxy-2.jpg)
