@@ -16,7 +16,8 @@ module.exports = {
         collapsable: false,
         children: [
           '/guide/prepare',
-          '/guide/config_sidebar_h5',
+          '/guide/concept',
+          '/guide/config_sidebar',
           '/guide/config_jssdk',
           '/guide/run_demo',
           '/guide/dev_env',
