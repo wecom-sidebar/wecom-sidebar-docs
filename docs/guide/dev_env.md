@@ -56,10 +56,10 @@ w2 start
 加入规则：
 
 ```
-# 代理后端（要放在最前端，不然代理规则会优先命中后面的规则）
-//service-xxx-yyy.gz.apigw.tencentcs.com/release //127.0.0.1:5000
+# 代理后端（模板的 baseURL 写死为 backend.com，这里代理到本地的 5000 端口）
+//backend.com //127.0.0.1:5000
 
-# 代理前端
+# 代理前端（侧边栏页面代理到本地的 3000 端口）
 //service-xxx-yyy.gz.apigw.tencentcs.com http://127.0.0.1:3000
 ```
 
