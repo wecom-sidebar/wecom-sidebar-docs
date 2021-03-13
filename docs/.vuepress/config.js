@@ -1,4 +1,5 @@
 module.exports = {
+  base: 'https://wecom-sidebar.github.io/',
   title: '',
   description: '企业微信侧边栏开发方案、教程、FAQ',
   themeConfig: {
