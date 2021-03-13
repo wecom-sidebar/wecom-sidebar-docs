@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/docs/',
+  base: '/guide/',
   title: '',
   description: '企业微信侧边栏开发方案、教程、FAQ',
   themeConfig: {
