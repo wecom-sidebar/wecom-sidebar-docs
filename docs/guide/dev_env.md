@@ -55,7 +55,7 @@ w2 start
 
 加入规则：
 
-```
+```shell
 # 代理后端（模板的 baseURL 写死为 backend.com，这里代理到本地的 5000 端口）
 //backend.com //127.0.0.1:5000
 
