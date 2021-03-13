@@ -4,7 +4,7 @@
 
 侧边栏开发最难的莫过于配置本地开发环境了，下面就聊聊怎么搭建本地开发环境。
 
-## 怎么把侧边栏映射到本地
+## 映射侧边栏到本地
 
 翻了很多网上的资料，基本都是改 hosts 文件来让侧边栏页面 打到 localhost 的。
 怎么说呢，感觉上就很不"本地"，因为会有一个"哎呀，我改了本地 hosts 文件，等开发完了要再改回去"的心理负担，不是很灵活。
@@ -20,7 +20,7 @@
 1. 让侧边栏页面走 whistle 代理
 2. 在 whistle 上设置代理规则，把页面所有请求都代理到 localhost
 
-## 本机全局代理
+## Whistle 全局代理
 
 首先先安装 Whistle
 
@@ -45,13 +45,13 @@ w2 start
 
 这里最好 Web Proxy(HTTP) 和 Secure WebProxy(HTTPS) 都用 127.0.0.1:8899 做代理。
 
-## 捕获 Https
+## Whistle 捕获 Https
 
 配置页的一定要 https 协议的，所以我们还要允许 Whistle 捕获 HTTPS 请求。按下面步骤一步一步来，要全套做完。
 
 [允许 Whistle 捕获 HTTPS 请求](http://wproxy.org/whistle/webui/https.html)
 
-## 添加规则
+## 添加 Whistle 代理规则
 
 加入规则：
 

@@ -6,7 +6,9 @@
 * [前端模板Github](https://github.com/wecom-sidebar/wecom-sidebar-frontend-template)
 * [后端模板Github](https://github.com/wecom-sidebar/wecom-sidebar-sls)
 
-## 使用后端模板
+## 后端模板
+
+按照国际惯例先跑后端。
 
 ```shell
 # 克隆到本地
@@ -40,7 +42,7 @@ npm run dev
 
 项目会在 5000 端口监听。
 
-## 使用前端模板
+## 前端模板
 
 ```shell
 # 克隆到本地
