@@ -17,8 +17,9 @@ module.exports = {
         children: [
           '/guide/prepare',
           '/guide/config_sidebar_h5',
+          '/guide/config_jssdk',
+          '/guide/run_demo',
           '/guide/dev_env',
-          '/guide/run_frontend_template'
         ]
       },
       {

@@ -1,23 +1,8 @@
 # 本地开发
 
-相信侧边栏开发最难的莫过于配置本地开发环境了，下面就聊聊怎么搭建本地开发环境。
+刚刚已经把项目启动了，前端在 3000 端口，后端在 5000 端口。
 
-## 本地项目
-
-我们先弄一个页面：
-
-```shell
-# 创建并写入 index.html
-echo "Hello World xxx" >> index.html
-
-# 安装 Node 的 http-server
-npm i http-server -g
-
-# 本地开启静态服务，指定端口为 3000
-http-server ./ -p 3000
-```
-
-访问 [http://127.0.0.1:3000](http://127.0.0.1:3000) 可以看到本地页面。
+侧边栏开发最难的莫过于配置本地开发环境了，下面就聊聊怎么搭建本地开发环境。
 
 ## 怎么把侧边栏映射到本地
 
@@ -31,7 +16,7 @@ http-server ./ -p 3000
 
 ## Whistle 简介
 
-这里就不得不安利一波我们 IMWeb 出品的 Whistle 啦，whistle(读音[ˈwɪsəl]，拼音[wēisǒu])基于Node实现的跨平台web调试代理工具。
+这里就不得不安利一波我们 IMWeb 出品的 Whistle 啦，whistle(读音[ˈwɪsəl]，拼音[wēisǒu])，是基于Node实现的跨平台web调试代理工具。
 
 Whistle 功能有非常的多，下面我只列举开发侧边栏常用的配置项，更多好玩的可以见 [Whistle 官网](https://wproxy.org/whistle/)。
 
