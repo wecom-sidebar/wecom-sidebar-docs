@@ -28,7 +28,8 @@ module.exports = {
         title: 'FAQ',
         collapsable: false,
         children: [
-          '/faq/agentConfig_is_not_a_function'
+          '/faq/agentConfig_is_not_a_function',
+          '/faq/has_jssdk_npm'
         ]
       }
     ]
