@@ -16,7 +16,7 @@ git init
 git add -A
 git commit -m 'deploy'
 
-# if you are deploying to https://<USERNAME>.github.io
-git push -f git@github.com:wecom-sidebar/wecom-sidebar.git master
+# git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
+git push -f git@github.com:wecom-sidebar/docs.git master:gh-pages
 
 cd -
