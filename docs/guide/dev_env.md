@@ -63,7 +63,7 @@ w2 start
 //service-xxx-yyy.gz.apigw.tencentcs.com http://127.0.0.1:3000
 ```
 
-![](./images/whistle_rules.png)
+![](./images/whistle-rules.png)
 
 重启企业微信（会有缓存），打开侧边栏。
 
