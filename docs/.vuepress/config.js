@@ -9,7 +9,8 @@ module.exports = {
         title: '介绍',
         collapsable: false,
         children: [
-          ['/', '封面']
+          '/',
+          '/intro/about'
         ]
       },
       {
