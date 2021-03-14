@@ -16,12 +16,12 @@ module.exports = {
         title: 'Hello World',
         collapsable: false,
         children: [
-          '/guide/prepare',
-          '/guide/concept',
-          '/guide/config_sidebar',
-          '/guide/config_jssdk',
-          '/guide/run_demo',
-          '/guide/dev_env',
+          '/hello_world/prepare',
+          '/hello_world/concept',
+          '/hello_world/config_sidebar',
+          '/hello_world/config_jssdk',
+          '/hello_world/run_demo',
+          '/hello_world/dev_env',
         ]
       },
       {
