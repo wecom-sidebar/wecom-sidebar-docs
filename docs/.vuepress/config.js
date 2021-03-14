@@ -28,11 +28,12 @@ module.exports = {
         title: 'FAQ',
         collapsable: false,
         children: [
-          '/faq',
+          '/faq/about',
           '/faq/has_jssdk_npm',
           '/faq/agentConfig_is_not_a_function',
+          '/faq/can_not_open_debug',
           '/faq/localStorage_reset',
-          '/faq/localStorage_not_reset'
+          '/faq/localStorage_not_reset',
         ]
       }
     ]
