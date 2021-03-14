@@ -1,4 +1,4 @@
-# 有没有 JS-SDK 的 npm 包
+# 有没有企业微信 npm JS-SDK
 
 有的。但是非常不推荐使用。
 
@@ -50,3 +50,9 @@
 再重现自己的问题，再和官方的人去对线。如果你输了乖乖用 script 标签，赢了把原来的 script 标签引入代码又改回来 npm 引入的方式。光是我打这段字都觉得累。何况你呢？
    
 总而言之，用 script 标签引入就对了，别问。
+
+## 参考
+
+* [有没有企业微信 npm js-sdk ？](https://developers.weixin.qq.com/community/develop/doc/000ec4ab3d44b05c4b7a01f7250800?highLine=npm)
+* [页面可以同时引入企业微信和 js-sdk普通微信吗？](https://developers.weixin.qq.com/community/develop/doc/000464b9f749c87d882b0f7de5c800?highLine=npm)
+* [企微JSSDK配置问题](https://developers.weixin.qq.com/community/develop/doc/0008e6f0ad0b98a2b97aab6c851c00?highLine=npm)

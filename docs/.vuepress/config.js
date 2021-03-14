@@ -28,8 +28,9 @@ module.exports = {
         title: 'FAQ',
         collapsable: false,
         children: [
+          '/faq/has_jssdk_npm',
           '/faq/agentConfig_is_not_a_function',
-          '/faq/has_jssdk_npm'
+          '/faq/localStorage_reset'
         ]
       }
     ]

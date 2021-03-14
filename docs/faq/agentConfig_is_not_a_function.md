@@ -11,6 +11,6 @@
 <script src="https://res.wx.qq.com/wwopen/js/jsapi/jweixin-1.0.0.js"></script>
 ```
 
-### 参考
+## 参考
 * [企业微信巨坑：wx.agentConfig is not a function](https://developers.weixin.qq.com/community/develop/article/doc/00022417118c78d4448af86625b413)
 * [企业微信JSSDK引入问题](https://developers.weixin.qq.com/community/develop/article/doc/000ca2a55e4b685d664b391ea5b013)
