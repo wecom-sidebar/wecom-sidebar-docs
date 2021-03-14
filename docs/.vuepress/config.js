@@ -30,7 +30,8 @@ module.exports = {
         children: [
           '/faq/has_jssdk_npm',
           '/faq/agentConfig_is_not_a_function',
-          '/faq/localStorage_reset'
+          '/faq/localStorage_reset',
+          '/faq/localStorage_not_reset'
         ]
       }
     ]
