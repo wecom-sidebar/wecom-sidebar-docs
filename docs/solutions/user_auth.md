@@ -1,5 +1,7 @@
 # 身份验证
 
+## 简介
+
 用户身份即 userId 需要通过 code 换取，而 code 又是从 OAuth 重定向回来链接上的参数中获取的。
 
 ## 图解
@@ -8,9 +10,7 @@
 
 ![](./images/oauth.png)
 
-## 实现
-
-### config 配置项
+## 准备 config 配置项
 
 首先，要准备好 corpId 和 agentId 两个参数。如果忘记了在哪里可以找到这两个参数的值，请看 [《基础概念》](/guide/concept)。
 
@@ -23,7 +23,7 @@ const config = {
 export default config
 ```
 
-### OAuth 链接构建
+## OAuth 链接构建
 
 重定向链接可以帮我们获取 code 参数。
 
@@ -60,7 +60,7 @@ const getOAuthUrl = (config: Config) => {
 
 **这个 code 有 5 分钟失效，且只要消费过就不能再用了。**
 
-### code 换取 userId 接口
+## code 换取 userId 接口
 
 * 涉及接口: https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd?suite_access_token=SUITE_ACCESS_TOKEN&code=CODE
 * 文档: [https://work.weixin.qq.com/api/doc/90001/90143/91121](https://work.weixin.qq.com/api/doc/90001/90143/91121)
@@ -78,7 +78,7 @@ const getUserId = async (code: string) => {
 }
 ```
 
-### 获取用户身份
+## 获取用户身份
 
 获取 userId 有两个地方可拿到：Cookie 缓存和用 code 和 access_token 请求 https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd 获取。
 

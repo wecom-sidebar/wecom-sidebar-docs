@@ -30,7 +30,8 @@ module.exports = {
         children: [
           '/solutions/cache',
           '/solutions/user_auth',
-          '/solutions/get_jsapi_ticket'
+          '/solutions/get_jsapi_ticket',
+          '/solutions/init_jssdk'
         ]
       },
       {
