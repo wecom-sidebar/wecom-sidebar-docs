@@ -10,8 +10,6 @@
 
 ## 实现
 
-下面给出我自己的实现。
-
 ### config 配置项
 
 首先，要准备好 corpId 和 agentId 两个参数。如果忘记了在哪里可以找到这两个参数的值，请看 [《基础概念》](/guide/concept)。
@@ -62,7 +60,25 @@ const getOAuthUrl = (config: Config) => {
 
 **这个 code 有 5 分钟失效，且只要消费过就不能再用了。**
 
-### 获取 userId
+### code 换取 userId 接口
+
+* 涉及接口: https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd?suite_access_token=SUITE_ACCESS_TOKEN&code=CODE
+* 文档: [https://work.weixin.qq.com/api/doc/90001/90143/91121](https://work.weixin.qq.com/api/doc/90001/90143/91121)
+
+```ts
+const getUserId = async (code: string) => {
+  const response = await api.get<AuthResponse>('/api', {
+    params: {
+      url: '/user/getuserinfo',
+      code
+    }
+  })
+
+  return response.data.UserId
+}
+```
+
+### 获取用户身份
 
 获取 userId 有两个地方可拿到：Cookie 缓存和用 code 和 access_token 请求 https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd 获取。
 
