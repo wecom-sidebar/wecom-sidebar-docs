@@ -111,7 +111,7 @@ const prepareSign = async (nonceStr: string, timestamp: number, getAppTicket: Ge
 这里的逻辑是，如果版本 < 3.0.24 则不去获取 corp_ticket，返回则为 `null`。
 初始化 JS-SDK 时，可以通过检查 corp_ticket 是否为 `null` 来判断是否需要 `wx.config`。
 
-初始化 JS-SDK 的方案请看下一章。
+初始化 JS-SDK 的方案请看下一节。
 
 ## 参考
 

@@ -28,6 +28,7 @@ module.exports = {
         title: '方案',
         collapsable: false,
         children: [
+          '/solutions/about',
           '/solutions/cache',
           '/solutions/user_auth',
           '/solutions/get_jsapi_ticket',
