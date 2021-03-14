@@ -25,6 +25,13 @@ module.exports = {
         ]
       },
       {
+        title: '方案',
+        collapsable: false,
+        children: [
+          '/solutions/cache',
+        ]
+      },
+      {
         title: 'FAQ',
         collapsable: false,
         children: [
