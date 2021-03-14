@@ -29,6 +29,7 @@ module.exports = {
         collapsable: false,
         children: [
           '/solutions/cache',
+          '/solutions/user_auth',
         ]
       },
       {
