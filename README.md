@@ -2,6 +2,10 @@
 
 ![](./docs/.vuepress/public/images/logo.png)
 
+## 封面
+
+<img width="200" src="./docs/intro/images/preface.jpeg" />
+
 ## 为什么会有本站
 
 相信第一次开发侧边栏的人都会有如下疑问：
@@ -38,7 +42,3 @@
 * 对 FAQ 的回答不满意
 
 **请一定、务必 [在 Issue 上留下你的解决方案、思路和参考](https://github.com/wecom-sidebar/docs/issues) ，本 repo 欢迎所有人一起讨论。**
-
-## 封面
-
-<img width="200" src="./docs/intro/images/preface.jpeg" />
