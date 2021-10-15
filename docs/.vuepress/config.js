@@ -31,6 +31,7 @@ module.exports = {
         collapsable: false,
         children: [
           '/solutions/cache',
+          '/solutions/redis',
           '/solutions/proxy',
           '/solutions/get_jsapi_ticket',
           '/solutions/init_jssdk',
