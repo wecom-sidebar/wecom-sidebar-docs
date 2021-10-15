@@ -23,6 +23,7 @@ module.exports = {
           '/hello_world/config_jssdk',
           '/hello_world/run_demo',
           '/hello_world/dev_env',
+          '/hello_world/browser_dev',
         ]
       },
       {

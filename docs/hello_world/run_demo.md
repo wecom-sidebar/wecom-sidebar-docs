@@ -12,7 +12,7 @@
 
 ```shell
 # 克隆到本地
-git clone https://github.com/wecom-sidebar/wecom-sidebar-sls.git
+git clone https://github.com/wecom-sidebar/wecom-sidebar-react-tpl
 ```
 
 其中需要用到 `corpId`，`agentId`，`corpSecret`，需要先行创建 `.env`（目前已隐藏），示例
@@ -20,14 +20,24 @@ git clone https://github.com/wecom-sidebar/wecom-sidebar-sls.git
 ```shell
 # .env
 
+# Redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
+
 # 在 https://work.weixin.qq.com/wework_admin/frame#profile 这里可以找到
 CORP_ID=企业ID
 
 # 在 https://work.weixin.qq.com/wework_admin/frame#apps 里的自建应用里可以找到（注意这里是自建应用里的 secret，不是客户联系里的回调 secret）
-CORP_SECRET=自建应用的secret
+CORP_SECRET=自建应用的CORP_SECRET
 
-# 在 https://work.weixin.qq.com/wework_admin/frame#apps 里的自建应用里可以找到 
-AGENT_ID=自建应用的AgentId
+# 在 https://work.weixin.qq.com/wework_admin/frame#apps 里的自建应用里可以找到
+AGENT_ID=自建应用的AGENT_ID
+```
+
+然后使用 docker 来启动 redis（用于缓存 `access_token` 和 `jsapi_ticket`）：
+
+```shell
+docker-compose -f docker-compose.yml up -d
 ```
 
 安装&启动项目
@@ -46,7 +56,7 @@ npm run dev
 
 ```shell
 # 克隆到本地
-git clone https://github.com/wecom-sidebar/wecom-sidebar-frontend-template.git
+git clone https://github.com/wecom-sidebar/wecom-sidebar-sls-tpl
 ```
 
 启动项目需要用到 `agentId` 和 `corpId`，需要先行创建 `src/_config.ts`（目前已隐藏），示例
@@ -74,5 +84,5 @@ npm install
 npm run start
 ```
 
-项目会在 [http://127.0.0.1:3000](http://127.0.0.1:3000) 打开，当然在浏览器里是不能正常工作的。
-不过没关系，下面我们就要把这个页面放到侧边栏，并显示出来。
+项目会在 [http://127.0.0.1:3000](http://127.0.0.1:3000) 打开， **当然现在在浏览器里是不能正常工作的。
+不过没关系，下面我们就要把这个页面放到侧边栏，并显示出来。**
