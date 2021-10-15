@@ -55,61 +55,92 @@ const sign = (jsapiTicket: string, nonceStr: string, timestamp: number) => {
 };
 ```
 
-## 获取 signature
+## 准备 redis
 
-下面给出从获取 ticket 到生成 signature 的实现：
+因为 jsapi_ticket 是不能一直获取的，需要缓存到 redis 上，所以需要 redis。
 
-```ts
-import compareVersions from 'compare-versions'
+可以使用 Docker 来启动 redis：
 
-// 获取 js_ticket 的回调
-export type GetTicket = () => Promise<string>
-
-/**
- * 根据 userAgent 检查当前企业微信版本号是否 < 3.0.24
- */
-const checkDeprecated = (): boolean => {
-  const DEPRECATED_VERSION = '3.0.24'
-
-  const versionRegexp = /wxwork\/([\d.]+)/;
-  const versionResult = navigator.userAgent.match(versionRegexp);
-
-  if (!versionResult || versionResult.length < 2) {
-    return true;
-  }
-
-  const [, version] = versionResult;
-
-  // version < DEPRECATED_VERSION ?
-  return compareVersions(version, DEPRECATED_VERSION) === -1
-};
-
-/**
- * 获取签名
- * @param nonceStr
- * @param timestamp
- * @param getAppTicket
- * @param getCorpTicket
- */
-const prepareSign = async (nonceStr: string, timestamp: number, getAppTicket: GetTicket, getCorpTicket: GetTicket) => {
-  const promises = [getAppTicket()]
-
-  // 如果版本 < 3.0.24，还需要获取企业的jsapi_ticket
-  if (checkDeprecated()) {
-    promises.push(getCorpTicket())
-  }
-
-  const [appTicket, corpTicket] = await Promise.all(promises)
-
-  return {
-    appSign: sign(appTicket || '', nonceStr, timestamp),
-    corpSign: corpTicket ? sign(corpTicket || '', nonceStr, timestamp) : null,
-  };
-};
+```yaml
+version: '3'
+services:
+  redis:
+    image: redis
+    container_name: 'wecom-sidebar-redis'
+    ports:
+      - "6379:6379"
+    restart: always
 ```
 
-这里的逻辑是，如果版本 < 3.0.24 则不去获取 corp_ticket，返回则为 `null`。
-初始化 JS-SDK 时，可以通过检查 corp_ticket 是否为 `null` 来判断是否需要 `wx.config`。
+然后输出一下 redis：
+
+```js
+const Redis = require('ioredis');
+
+const redis = new Redis({
+  host: process.env.REDIS_HOST || 'localhost',
+  port: process.env.REDIS_PORT || 6379,
+});
+
+module.exports = redis
+```
+
+## 获取 signature
+
+按照官方的说法，应该要后端实现 signature 的签发，所以这部分逻辑要放在后端：
+
+```js
+const sha1 = require('sha1');
+// redis
+const redis = require("../redis");
+// 企业微信转发服务
+const QywxBaseController = require("../controllers/QywxProxyController");
+
+const keys = {
+  ACCESS_TOKEN: 'access_token',
+  CORP_JSAPI_TICKET: 'corp_jsapi_ticket',
+  APP_JSAPI_TICKET: 'app_jsapi_ticket',
+}
+
+const OFFSET = 100;
+
+const getJsApiTickets = async (url, accessToken) => {
+  const [urlKey] = url.split('#')
+
+  // 使用前缀和 url 生成当前的 key
+  const corpJsApiTicketsKey = `${keys.CORP_JSAPI_TICKET}_${urlKey}`;
+  const appJsApiTicketsKey = `${keys.APP_JSAPI_TICKET}_${urlKey}`;
+
+  // 缓存 ticket
+  const cacheCorpJsApiTickets = await redis.get(corpJsApiTicketsKey);
+  const cacheAppJsApiTicket = await redis.get(appJsApiTicketsKey);
+
+  // 是否有缓存的 tickets
+  if (cacheAppJsApiTicket || cacheCorpJsApiTickets) {
+    console.log('使用 redis 的 ticket', cacheCorpJsApiTickets, cacheAppJsApiTicket)
+    return {
+      corpTicket: cacheCorpJsApiTickets,
+      appTicket: cacheAppJsApiTicket
+    }
+  }
+
+  // 获取企业 jsapi_ticket 和应用 jsapi_ticket
+  console.log('远程获取 ticket', cacheCorpJsApiTickets, cacheAppJsApiTicket)
+  const [corpTicketRes, appTicketRes] = await Promise.all([
+    QywxBaseController.getRequest('/get_jsapi_ticket', {}, accessToken),
+    QywxBaseController.getRequest('/ticket/get', { type: 'agent_config'}, accessToken)
+  ]);
+
+  // 写入缓存
+  await redis.set(corpJsApiTicketsKey, corpTicketRes.ticket, 'EX', corpTicketRes.expires_in - OFFSET)
+  await redis.set(appJsApiTicketsKey, appTicketRes.ticket, 'EX', appTicketRes.expires_in - OFFSET)
+
+  return {
+    corpTicket: corpTicketRes.ticket,
+    appTicket: appTicketRes.ticket,
+  }
+}
+```
 
 初始化 JS-SDK 的方案请看下一节。
 

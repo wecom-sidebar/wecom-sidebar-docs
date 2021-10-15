@@ -31,9 +31,10 @@ module.exports = {
         collapsable: false,
         children: [
           '/solutions/cache',
-          '/solutions/user_auth',
+          '/solutions/proxy',
           '/solutions/get_jsapi_ticket',
-          '/solutions/init_jssdk'
+          '/solutions/init_jssdk',
+          '/solutions/user_auth',
         ]
       },
       {
