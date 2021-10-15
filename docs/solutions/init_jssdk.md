@@ -2,7 +2,7 @@
 
 ## 简介
 
-上一节已经写好 `prepareSign` 用于获取权限签名的函数，初始化这一步就相对简单多了。
+上一节已经写了后端用于获取权限签名的函数，初始化这一步就相对简单多了。
 
 但是 JS-SDK 的初始化函数用得特别蛋疼，没有 TS 类型，没有最佳实践就算了，都 1202 年还用"回调地狱"。
 所以，第一步应该把一些重要的 API 都上 Promise。
@@ -45,11 +45,10 @@ interface AgentSetting {
  * jssdk 的 config 函数的封装
  * @param setting
  */
-export const config = (setting: wx.Setting): Promise<wx.ConfigCallbackRes> => {
-  return new Promise((resolve, reject) => {
+const config = (setting: wx.ConfigParams): Promise<wx.WxFnCallbackRes | null> => {
+  return new Promise((resolve) => {
     wx.config({ ...setting });
-    wx.ready(res => resolve(res));
-    wx.error(err => reject(err));
+    wx.ready(() => resolve(null));
   });
 };
 
@@ -57,13 +56,12 @@ export const config = (setting: wx.Setting): Promise<wx.ConfigCallbackRes> => {
  * jssdk 的 agentConfig 函数封装
  * @param agentSetting
  */
-export const agentConfig = (agentSetting: Omit<wx.AgentSetting, 'success' | 'fail'>): Promise<wx.ConfigCallbackRes> => {
+const agentConfig = (agentSetting: Omit<wx.AgentConfigParams, 'success' | 'fail'>): Promise<wx.WxFnCallbackRes> => {
   return new Promise((resolve, reject) => {
     wx.agentConfig({
       ...agentSetting,
       success: resolve,
       fail: reject,
-      complete: resolve,
     });
   });
 };
@@ -73,14 +71,17 @@ export const agentConfig = (agentSetting: Omit<wx.AgentSetting, 'success' | 'fai
  * @param apiName api 名称
  * @param params 传入参数
  */
-export const invoke = <Res = {}>(apiName: wx.Api, params = {}) => {
-  return new Promise<wx.InvokeCallbackRes & Res>((resolve, reject) => {
+const invoke = <Res = { hasError: boolean }>(apiName: wx.Api, params = {}) => {
+  return new Promise<wx.WxInvokeCallbackRes & Res>((resolve) => {
     wx.invoke<Res>(apiName, params, res => {
-      if (res.err_msg === `${apiName}:ok`) {
-        resolve(res);
-      } else {
-        reject(res);
+      const hasError = res.err_msg !== `${apiName}:ok`
+
+      if (hasError) {
+        // 错误日志
+        console.error(apiName, params, res);
       }
+
+      resolve({ ...res, hasError })
     });
   });
 };
@@ -88,78 +89,67 @@ export const invoke = <Res = {}>(apiName: wx.Api, params = {}) => {
 
 ## 初始化
 
-结合上一节的 `prepareSign`，就可以完成初始化的步骤了。
-
-这里需要的参数有：
-
-* config: 包括 corpId，agentId
-* getAppTicket: 获取 appTicket 的 AJAX 回调
-* getCorpTicket: 获取 corpTicket 的 AJAX 回调
-* getUserId: code 换取 userId 的 AJAX 回调
-
 实现如下：
 
 ```ts
-export interface Config {
+interface Config {
   corpId: string;
   agentId: string;
 }
 
-export interface Options {
-  config: Config
-  getAppTicket: GetTicket
-  getCorpTicket: GetTicket
-  getUserId: GetUserId
+interface TicketRes {
+  meta: {
+    nonceStr: string,
+    timestamp: number,
+    url: string,
+  },
+  app: {
+    ticket: string,
+    expires: number,
+    signature: string,
+  },
+  corp: {
+    ticket: string,
+    expires: number,
+    signature: string,
+  },
 }
+
+export type GetSignatures = () => Promise<TicketRes>
 
 /**
  * 初始化企业微信 SDK 库
  * @param options 自建应用的基本信息
  */
-const initSdk = async (options: Options) => {
-  const { corpId, agentId } = options.config;
-
-  const nonceStr = btoa(new Date().toISOString());
-  const timestamp = Date.now();
+const initSdk = async (config: Config, getSignatures: GetSignatures) => {
+  const { corpId, agentId } = config;
 
   // 获取 ticket
-  const { appSign, corpSign } = await prepareSign(nonceStr, timestamp, options.getAppTicket, options.getCorpTicket);
+  const signaturesRes = await getSignatures();
 
-  // corpSign 存在则说明版本 < 3.0.24
-  // 注意：这里不能做并行操作，要先 config 再 agentConfig
-  if (corpSign) {
-    await jsSdk.config({
-      beta: true,
-      debug: false,
-      appId: corpId,
-      timestamp,
-      nonceStr,
-      signature: corpSign,
-      jsApiList: apis,
-    }).catch(e => {
-      console.error(e)
-    });
-  }
-
-  await jsSdk.agentConfig({
+  const agentConfigRes = await jsSdk.agentConfig({
     corpid: corpId,
     agentid: agentId,
-    timestamp,
-    nonceStr,
-    signature: appSign,
+    timestamp: signaturesRes.meta.timestamp,
+    nonceStr: signaturesRes.meta.nonceStr,
+    signature: signaturesRes.app.signature,
     jsApiList: apis,
   }).catch(e => {
     console.error(e)
   });
+
+  console.log('agentConfig res', agentConfigRes);
+
+  wx.error(console.error);
 };
 ```
 
 初始化使用：
 
-```ts
-const options = {...}
-
-initSdk(options)
+```tsx
+checkRedirect(config, fetchUserId)
+  .then(() => initSdk(config, fetchSignatures))
+  .then(() => ReactDOM.render(<App />, document.getElementById('root')))
 ```
 
 ## 参考
