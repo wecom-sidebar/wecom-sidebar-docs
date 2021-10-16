@@ -1,5 +1,5 @@
 module.exports = {
-  base: '/docs/',
+  base: '/wecom-sidebar-docs/',
   title: '企微侧栏',
   description: '企业微信侧边栏开发方案、教程、FAQ',
   themeConfig: {
