@@ -62,10 +62,12 @@ export const isMock = isWindowMock || isHostMock;
 Mock 模式主要对 `wx.fn` 和 `wx.invoke` 这两种 API 调用的返回值进行 Mock，你可以在 `src/mock.ts` 写 Mock 的返回内容和内容 factory 函数：
 
 ```js
+export const mockUserId = window.mockUserId || 'xxx';
+
 // 可在这里自由 mock wx.invoke 的内容
 export const invokeResMock: Record<string, any> = window.invokeResMock || {
   'getCurExternalContact': {
-    userId: 'wmuUG7CQAAOrCCMkA8cqcCm1wJrJAD6A'
+    userId: 'yyy'
   },
 }
 
@@ -104,7 +106,7 @@ window.isMock = true;
 // 可在这里自由 mock wx.invoke 的内容
 window.invokeResMock = {
   'getCurExternalContact': {
-    userId: 'wmuUG7CQAAOrCCMkA8cqcCm1wJrJAD6A'
+    userId: 'yyyy'
   },
 }
 
