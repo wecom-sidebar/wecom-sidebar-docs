@@ -14,7 +14,7 @@ module.exports = {
         ]
       },
       {
-        title: 'Hello World',
+        title: '上手',
         collapsable: false,
         children: [
           '/hello_world/prepare',

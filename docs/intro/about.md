@@ -35,4 +35,4 @@
 * 你有更好的解决方案
 * 对 FAQ 的回答不满意
 
-**请一定、务必 [在 Issue 上留下你的解决方案、思路和参考](https://github.com/wecom-sidebar/docs/issues) ，本 repo 欢迎所有人一起讨论。**
+**可以 [在 Issue 上留下你的解决方案、思路和参考](https://github.com/wecom-sidebar/docs/issues) ，本 repo 欢迎所有人一起讨论。**

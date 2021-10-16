@@ -6,6 +6,18 @@
 * [前端模板Github](https://github.com/wecom-sidebar/wecom-sidebar-frontend-template)
 * [后端模板Github](https://github.com/wecom-sidebar/wecom-sidebar-sls)
 
+*本来真的想写个简单的 Hello World 的，但是牵连的东西实在太多了，所以这里直接给前后端模板了。*
+
+## 模板功能
+
+模板主要实现了以下功能：
+
+* 转发企业微信服务端 API
+* 缓存 `access_token` 和 `jsapi_ticket`
+* 封装把 `wx` 对象的 API 封装成 `jsSdk`
+* 客户端的初始步骤：重定向获取用户身份和初始化 JS-SDK
+* Mock 功能，可在浏览器上直接开发
+
 ## 后端模板
 
 按照国际惯例先跑后端。
