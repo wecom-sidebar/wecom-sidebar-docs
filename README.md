@@ -2,6 +2,8 @@
 
 ![](./docs/.vuepress/public/images/logo.png)
 
+[主站链接](https://wecom-sidebar.github.io/)
+
 ## 封面
 
 <img width="200" src="./docs/intro/images/preface.jpeg" />
