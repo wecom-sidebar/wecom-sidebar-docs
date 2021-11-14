@@ -35,6 +35,7 @@ module.exports = {
         title: '方案',
         collapsable: false,
         children: [
+          '/solutions/qiankun',
           '/solutions/cache',
           '/solutions/redis',
           '/solutions/proxy',
