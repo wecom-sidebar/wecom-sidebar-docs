@@ -68,7 +68,7 @@ npm run dev
 
 ```shell
 # 克隆到本地
-git clone https://github.com/wecom-sidebar/wecom-sidebar-sls-tpl
+git clone https://github.com/wecom-sidebar/wecom-sidebar-express-tpl
 ```
 
 启动项目需要用到 `agentId` 和 `corpId`，需要先行创建 `src/_config.ts`（目前已隐藏），示例
