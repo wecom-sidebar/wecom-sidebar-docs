@@ -40,34 +40,34 @@ registerMicroApps(
 
 ## 为什么要用微前端
 
-管理模式相似不代表非要上微前端，而是当要管理多个应用时，会出现下面的问题：
+相似不代表非要上微前端。只不过，在管理多个应用时，会出现下面的问题：
 
--  **所有侧栏应用为硬隔离**。切换不同应用都要重新加载
--  **基础信息不共享**。重新加载又需要重新初始化 JS-SDK 和获取群聊、私聊、用户身份的信息，而这些信息对于每个应用都是必需的，不应该每次都重新获取
--  **方便多团队协作**。应对已有 H5 嵌入到侧边栏的场景
+-   **所有侧栏应用为硬隔离**。切换不同应用都要重新加载
+-   **基础信息不共享**。重新加载又需要重新初始化 JS-SDK 和获取群聊、私聊、用户身份的信息，而这些信息对于每个应用都是必需的，不应该每次都重新获取
+-   **方便多团队协作**。应对已有 H5 嵌入到侧边栏的场景
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/d73ce9eeb2cc460593f407e7c19dcc1a~tplv-k3u1fbpfcp-watermark.image?)
 
 ## 微前端思路
 
-刚刚提到的 “通过注册多个微应用来注册多个侧边栏应用” 的方式就是一个很好的管理方法。
+刚刚提到通过注册多个微应用实现 “注册多个侧边栏应用” 的方式就是一个很好的管理方法。
 
 除此之外，我还希望有如下功能：
 
--   微应用可以从主应用获取一些公共信息，比如 `userId` 之类
--   微应用同时可以获取主应用的 `jsSdk` 对象，直接使用 `jsSdk` 与企业微信交互
--   主应用会自动完成 `用户身份验证` 和 `JS-SDK` 的初始化，微应用不再需要做公共逻辑，自动拥有业务所需数据
+-   微应用可以从主应用获取一些公共信息，比如 `userId` 之类
+-   微应用同时可以获取主应用的 `jsSdk` 对象，直接使用 `jsSdk` 与企业微信交互
+-   主应用会自动完成 `用户身份验证` 和 `JS-SDK` 的初始化，微应用不再需要做公共逻辑，自动拥有业务所需数据
 -   主应用除了像 Router 那样自动注册微应用，还能在指定 container 里手动注册微应用
 
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6896b47dcc8d4000a51fee356b5223be~tplv-k3u1fbpfcp-watermark.image?)
 
-而 [qiankun](https://qiankun.umijs.org/zh) 都能完美地解决我的问题。微前端框架的实践已上传到我的 Github，大家搜索 [wecom-sidebar-qiankun-tpl](https://github.com/wecom-sidebar/wecom-sidebar-qiankun-tpl) 就可以找到了。
+[qiankun](https://qiankun.umijs.org/zh) 这个微前端框架非常完美地解决上面的问题。
 
 ## 主应用 - 初始化
 
 ![](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1bc727dd065642adaae86ab2d5111741~tplv-k3u1fbpfcp-watermark.image?)
 
-从上图可以看出来主应用需要完成的事情有两个：
+从刚刚的分析可以看出来主应用需要完成两个事情：
 * 执行公共逻辑：获取用户身份、将 JS-SDK 初始化
 * 获取公共数据：`userId`, `context`, `chat` 等需要共享的侧栏公共数据和业务数据
 
@@ -128,19 +128,22 @@ const initQiankunMainApp = async (jsSdk: JsSDK) => {
 export default initQiankunMainApp;
 ```
 
-这里的 `initQiankunMainApp` 需要传入的 `jsSdk`，通过 `jsSdk` 与企业微信交互，获取私聊、群聊的内容，再通过 `props` 的方式传给微前端。当微应用 `mount` 时就可以拿到初始的公共数据了。
+`initQiankunMainApp` 函数需要传入 `jsSdk`，然后通过 `jsSdk` 与企业微信交互，获取私聊、群聊的内容，再通过 `props` 的方式传给微前端。当微应用在 `mount` 的时候，就可以拿到初始的公共数据了。
 
 如果数据有变动的话，比如调用了 `login`，可以通过下面代码来更新 `globalState`:
 
 ```js
-microAppStateActions.setGlobalState({
-  msg: '新内容'
-})
+function login() {
+    ... 登录逻辑
+    microAppStateActions.setGlobalState({
+      msg: '新内容'
+    })
+}
 ```
 
-更新了之后，微应用也需要添加 `onGlobalStateChange` 来监听数据变化。 *不过，因为只是获取公共数据，所以一般来说变化不会特别频繁。*
+更新了之后，微应用也需要添加 `onGlobalStateChange` 来监听数据变化。 *不过，因为只是获取公共数据，所以一般来说 `globalState` 的变化不会特别频繁。*
 
-后面的注册就比较简单了，配置一下 `name` 和 `entry` 就差不多了。这里需要注意的是 `activeRule` 我写的是 `/#/xxx-app`，这是因为我在主应用用了 Hash Router，路由部分下面再说。
+后面的注册微应用就比较简单了，配置一下 `name` 和 `entry` 就差不多了。这里需要注意的是 `activeRule` 我写的是 `/#/xxx-app`，这是因为我在主应用用了 Hash Router，路由部分等会再说。
 
 因为需要在处理完公共逻辑再注册微应用，所以在入口文件 `index.tsx` 中要这么写：
 
@@ -175,13 +178,13 @@ checkRedirect(config, fetchUserId, mockUserId) // 重定向获取 code（用户�
 
 ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b1df8f4cee6b4c7dbbcd91bc373a8682~tplv-k3u1fbpfcp-watermark.image?)
 
-如果 `主-微` 这样的架构还是比较简单的，可是这里的主应用除了承载微应用的注册，还可能拥有自己的样式、一些简单的功能，所以， **我觉得在主应用拥有自己的路由系统是一个合理的需求。**
+如果只是 `主-微` 这样的架构还是比较简单的，但是我希望主应用也能作为一个侧栏应用去使用，它也可以拥有自己的样式、一些简单的功能，所以 **我觉得在主应用拥有自己的路由系统是一个合理的需求。**
 
 这里我使用了 Hash Router，这是因为如果用 history 模式的 Browser Router，每次切换路由都要初始化 JS-SDK，太麻烦了，具体参见 [文档这里的步骤二](https://open.work.weixin.qq.com/api/doc/90001/90144/90547)。
 
 > 如果非要用 history 模式，也可以在路由切换的回调里初始化，不过我总感觉可能会出一些奇怪的 Bug
 
-我把之前 wecom-sidebar-react-tpl 项目的所有功能都放在首页上了，所以这里的路由仅有一个首页：
+我把之前 [wecom-sidebar-react-tpl](https://github.com/wecom-sidebar/wecom-sidebar-react-tpl) 项目的所有功能都放在首页上了，所以这里的路由仅有一个首页：
 
 ```tsx
 const RouterConfig: FC = () => {
@@ -199,13 +202,13 @@ export default RouterConfig;
 
 ![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b3bdc5d8d5a04b64bc74c060cd03cac7~tplv-k3u1fbpfcp-watermark.image?)
 
-从上图可以看到通过 Ant Design 的 `<Menu/>` 组件划分了 3 个 Tab，其中第一个 **首页** 就是主应用里的 `<Home/>` 组件，仅是个普通 React 组件，而剩下的 `sidebar-app` 和 `react-app` 则是后面要讲的微应用。
+从上图可以看到通过 Ant Design 的 `<Menu/>` 组件划分了 3 个 Tab，其中第一个 **首页** 就是主应用里的 `<Home/>` 组件，仅是个普通 React 组件，而剩下的 `sidebar-app` 和 `react-app` 才是后面要讲的微应用。
 
 ## 微应用 - 初始化
 
 ![](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aba2b19e5e314de299a4336aa9a9b19d~tplv-k3u1fbpfcp-watermark.image?)
 
-这两个微应用我都使用了 [create-react-app](https://create-react-app.dev/) 来创建，然后按照 [qiankun 官方文档的“项目实践”章节](https://qiankun.umijs.org/zh/guide/tutorial) 来配置微应用。本来不想再讲一遍的，但是配置过程也发现一些问题，就展开讲讲吧。
+这两个微应用我都使用了 [create-react-app](https://create-react-app.dev/) 来创建，然后按照 [qiankun 官方文档的“项目实践”章节](https://qiankun.umijs.org/zh/guide/tutorial) 来配置微应用。本来不想再讲一遍的，但是在配置过程也发现一些问题，就展开讲讲吧。
 
 ### 第一步 - publicPath
 在 `/src` 下新增 `public-path.ts` 文件：
@@ -229,7 +232,7 @@ export default {}
 TS1208: 'public-path.ts' cannot be compiled under '--isolatedModules' because it is considered a global script file. Add an import, export, or an empty 'export {}' statement to make it a module.
 ```
 
-反正就是一个文件必须要 `export` 一个东西才可以，所以只能写成这样。
+报错的意思是一个文件必须要 `export` 一个东西才可以，所以只能写成上面这样。
 
 然后在入口文件的 `index.tsx` 里的 **第一行** 引入并执行它：
 
@@ -253,11 +256,11 @@ function App(props: Props) {
 }
 ```
 
-如果没有执行这个 `publicPath`，或者单独运行 `react-app` 的话，这里的 `logo` 会变成 `/static/media/logo.6ce24c58.svg`，而我们主应用的 URL 是 `localhost:3000`，微应用的 URL 是 `localhost:3001`。
+如果没有执行这个 `publicPath`，或者单独运行 `react-app` 的话，这里的 `logo` 路径会变成 `/static/media/logo.6ce24c58.svg`。
 
-所以当内嵌到主应用时，图片 URL 就变成了 `localhost:3000/static/media/logo.6ce24c58.svg`，但是主应用没有这个 SVG 呀，所以资源就会报 404 报错了。
+而我们主应用的 URL 是 `localhost:3000`，微应用的 URL 是 `localhost:3001`。所以当内嵌到主应用时，图片 URL 就变成了 `localhost:3000/static/media/logo.6ce24c58.svg`，但是主应用没有这个 SVG 呀，然后资源就会报 404 报错了。
 
-这里的 `public-path.ts` 就是在希望在 webpack 打包的时候，把前面的 `localhost:3001` 定死，访问资源时就会去微应用那找了。
+这里的 `public-path.ts` 就是在希望在 Webpack 打包的时候，把前面的 `localhost:3001` 定死，访问资源时就会去微应用那找了。
 
 ### 第二步 - basename
 在 Router 里添加 `basename` 属性。
@@ -279,7 +282,7 @@ function App() {
 
 **注意：主应用和微应用都使用 Router 时，Router 类型（history 模式/hash 模式）必须是一样，不然会有很多问题。**
 
-**注意：当我在写主应用的时候 React Router 已经来到了 v6.x 的版本，而主应用用的依然是 v5.x，所以，我觉得这也是微前端框架的一个优势吧，可以磨平主微应用的技术栈。**
+**注意：当我在写主应用的时候 React Router 已经来到了 v6.x 的版本，而主应用用的依然是 v5.x，所以，我觉得这也是微前端框架的一个优势吧，可以磨平主、微应用的技术栈。**
 
 添加了 `basename` 之后，就可以直接写 `path` 了，不用写成 `/sidebar-app/home` 这种带有前缀的写法了：
 
@@ -387,7 +390,7 @@ if (!window.__POWERED_BY_QIANKUN__) {
 
 在 `mount` 回调里，我们可以接收上面提到主应用传来的 `props`，在这个 `props` 里提取 `isChat` 和 `jsSdk` 两个数据，并将其设置到 redux store 中，作为整个微应用的全局状态。
 
-至于使用 redux，相信是个人都会了，`mapStateToProps`、`mapDispatchToProps`、`useDispatch` 和 `useSelector` 这些就不展开说了，拿到 `jsSdk` 可以像主应用那样去调用 API 就可以了。
+相信是个人都会用 redux 了，那关于 `mapStateToProps`、`mapDispatchToProps`、`useDispatch` 和 `useSelector` 这些就不展开说了，拿到 `jsSdk` 可以像主应用那样去调用 API 就可以了。
 
 又或者你不想用 redux，每次状态变更后都重新渲染一次应用也是可以的，这个我在 `react-app` 里实现了：
 
@@ -437,7 +440,7 @@ if (!window.__POWERED_BY_QIANKUN__) {
 
 ### 第四步 - 修改 Webpack 配置
 
-这里根据官网做的就好了，先装个 `rescripts/cli`，把 CRA 那个垃圾脚手架给换了：
+这里根据官网做的就好了，先装个 `rescripts/cli`，把 CRA 那个垃圾脚手架给换成 `rescripts`：
 
 ```shell
 npm i -D @rescripts/cli
@@ -576,5 +579,6 @@ export default MicroAppComponent;
 * 微应用在暴露的生命周期里的 `mount` 的参数 `props` 中获取主应用传递的数据
 * 微应用拿到主应用数据后，可以选择放到 redux 的 store 去管理，也可以在 `onGlobalStateChange` 回调中重新 `render` 整个应用，随你选哪种
 * 主、微应用都可以有各自的路由，但是路由类型必须一致，不然会有大惊喜！微应用需要在 Router 处添加 `basename`，去掉写前缀的写法
+
 
 **最后的我自己的建议是：主应用应该拥有自己的样式、欢迎页、首页、路由，或者编写自己部门的侧边栏应用，然后使用 qiankun 留出一个入口，用于承载别的部门的侧边栏就用。**
