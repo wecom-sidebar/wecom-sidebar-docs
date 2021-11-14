@@ -17,6 +17,9 @@ git add -A
 git commit -m 'deploy'
 
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
+# 强推到当前项目
 git push -f git@github.com:wecom-sidebar/wecom-sidebar-docs.git master:gh-pages
+# 强推到 index
+git push -f git@github.com:wecom-sidebar/wecom-sidebar.git master:master
 
 cd -
