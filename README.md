@@ -1,6 +1,10 @@
 # 企业微信侧边栏开发指南
 
+
+[主站链接](https://wecom-sidebar.github.io/)
+
 ![](./docs/.vuepress/public/images/logo.png)
+
 
 ## 封面
 
