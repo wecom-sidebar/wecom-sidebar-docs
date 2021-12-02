@@ -5,9 +5,7 @@ module.exports = {
   themeConfig: {
     logo: '/images/logo.png',
     nav: [
-      { text: 'JS-SDK API', link: 'https://open.work.weixin.qq.com/api/doc/90001/90144/90545' },
-      { text: '服务端 API', link: 'https://open.work.weixin.qq.com/api/doc/90001/90143/91201' },
-      { text: '开放社区', link: 'https://developers.weixin.qq.com/community/enterprisewechat' },
+      { text: 'Github', link: 'https://github.com/wecom-sidebar' }
     ],
     sidebar: [
       {
