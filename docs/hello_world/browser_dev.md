@@ -99,6 +99,8 @@ export const wxResMock: Record<string, any> = window.wxResMock || {
 
 第二步，在这个文件里注入全局变量了。
 
+**注意，下面代码必须要加分号，因为下面代码直接插入到 Webpack 打包出来的代码，所以不加分号可能出错。**
+
 ```js
 // 开启 Mock 功能
 window.isMock = true;
@@ -108,13 +110,13 @@ window.invokeResMock = {
   'getCurExternalContact': {
     userId: 'yyyy'
   },
-}
+};
 
 // 可在这里自由 wx.fn 的内容
 window.wxResMock = {
   'agentConfig': () => {
     console.log('mock agent config')
   },
-}
+};
 ```
 
