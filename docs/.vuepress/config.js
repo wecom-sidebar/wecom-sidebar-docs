@@ -17,7 +17,7 @@ module.exports = {
         ]
       },
       {
-        title: '上手',
+        title: '前置工作',
         collapsable: false,
         children: [
           '/pre_work/prepare',
@@ -26,6 +26,17 @@ module.exports = {
           '/pre_work/config_jssdk',
           '/pre_work/run_demo',
           '/pre_work/dev_env',
+        ]
+      },
+      {
+        title: 'wecom-sidebar-jssdk',
+        collapsable: false,
+        children: [
+          '/jssdk/hello_world',
+          '/jssdk/typescript',
+          '/jssdk/util_apis',
+          '/jssdk/sdk_apis',
+          '/jssdk/mock_apis',
         ]
       },
       {
