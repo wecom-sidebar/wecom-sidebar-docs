@@ -26,33 +26,8 @@ module.exports = {
           '/hello_world/config_jssdk',
           '/hello_world/run_demo',
           '/hello_world/dev_env',
-          '/hello_world/browser_dev',
         ]
       },
-      {
-        title: '方案',
-        collapsable: false,
-        children: [
-          '/solutions/qiankun',
-          '/solutions/cache',
-          '/solutions/redis',
-          '/solutions/proxy',
-          '/solutions/get_jsapi_ticket',
-          '/solutions/init_jssdk',
-          '/solutions/user_auth',
-        ]
-      },
-      {
-        title: 'FAQ',
-        collapsable: false,
-        children: [
-          '/faq/has_jssdk_npm',
-          '/faq/agentConfig_is_not_a_function',
-          '/faq/can_not_open_debug',
-          '/faq/localStorage_reset',
-          '/faq/localStorage_not_reset',
-        ]
-      }
     ]
   }
 }
