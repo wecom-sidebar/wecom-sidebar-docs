@@ -20,12 +20,12 @@ module.exports = {
         title: '上手',
         collapsable: false,
         children: [
-          '/hello_world/prepare',
-          '/hello_world/concept',
-          '/hello_world/config_sidebar',
-          '/hello_world/config_jssdk',
-          '/hello_world/run_demo',
-          '/hello_world/dev_env',
+          '/pre_work/prepare',
+          '/pre_work/concept',
+          '/pre_work/config_sidebar',
+          '/pre_work/config_jssdk',
+          '/pre_work/run_demo',
+          '/pre_work/dev_env',
         ]
       },
       {
