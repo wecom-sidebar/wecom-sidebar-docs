@@ -28,6 +28,13 @@ module.exports = {
           '/hello_world/dev_env',
         ]
       },
+      {
+        title: '其它',
+        collapsable: false,
+        children: [
+          '/others/link',
+        ]
+      },
     ]
   }
 }
