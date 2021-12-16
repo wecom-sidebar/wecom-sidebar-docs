@@ -6,6 +6,9 @@
 
 该函数用于检查是否需要重定向，并自动获取 `userId`，缓存到 Cookie 的函数。
 
+调用后上面方法后，页面 Cookie 为 `document.cookie = 'userId=xxx'`。
+你可以通过 `js-cookie` 的 `Cookies.get('userId')` 来取得当前 `userId`。
+
 ```ts
 import {checkRedirect} from 'wecom-sidebar-jssdk';
 
