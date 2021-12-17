@@ -90,7 +90,7 @@ const render = () => {
 
 checkRedirect(config, fetchUserId)
   .then(() => initSdk(config, fetchSignatures))
-  .then(() => testApi)
+  .then(() => testApi())
   .catch(() => console.error('JS-SDK 初始化失败'))
   .finally(() => render());
 ```
